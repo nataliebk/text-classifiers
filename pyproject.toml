@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "text_classifiers"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pandas = "^1.2.3"
+scikit-learn = "^0.24.1"
+matplotlib = "^3.3.4"
+seaborn = "^0.11.1"
+streamlit = "^0.79.0"
+nltk = "^3.5"
+
+[tool.poetry.dev-dependencies]
+jupyterlab = "^3.0.12"
+
+[tool.poetry.scripts]
+train-classifier = "text_classifiers.train:run"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
