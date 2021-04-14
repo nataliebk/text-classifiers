@@ -46,7 +46,7 @@ def evaluate_model(test_data, text_col, label_col, classifier):
 def select_classes(dtf, text_col="headline", label_col="category", top_n=6):
     """Select top N classes for training"""
     selected_categories = list(dtf[label_col].value_counts().keys()[:top_n])
-    logging.info("Selected classes for training: ", selected_categories)
+    logging.info("Selected classes for training: %s", selected_categories)
     selected_df = dtf[dtf[label_col].isin(selected_categories)][[text_col, label_col]]
     return selected_df
 
