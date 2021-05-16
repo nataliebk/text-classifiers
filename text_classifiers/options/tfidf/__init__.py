@@ -10,8 +10,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import precision_score, accuracy_score
 
-from text_classifiers.helpers import check_stopwords
-
 
 def train_with_tfidf(train_data, text_col, label_col, max_features=2500, test_size=0.10):
     """Trains a simple text classifyer."""
@@ -24,7 +22,6 @@ def train_with_tfidf(train_data, text_col, label_col, max_features=2500, test_si
     )
 
     # training a classifier using each word's tf-idf values as features
-    check_stopwords()
     classifier = Pipeline(
         [
             ("tfidf", TfidfVectorizer(
