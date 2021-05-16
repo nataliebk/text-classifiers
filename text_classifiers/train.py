@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, accuracy_score
 
 from text_classifiers.options.tfidf import train_with_tfidf
-from text_classifiers.helpers import check_stopwords, setup_logging
+from text_classifiers.helpers import setup_logging
 
 
 def read_data(file_path):
