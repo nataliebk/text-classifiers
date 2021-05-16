@@ -12,12 +12,15 @@ matplotlib = "^3.3.4"
 seaborn = "^0.11.1"
 streamlit = "^0.79.0"
 nltk = "^3.5"
+gensim = "^4.0.1"
+python-Levenshtein = "^0.12.2"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.0.12"
 
 [tool.poetry.scripts]
 train-classifier = "text_classifiers.train:run"
+create-wordvec = "text_classifiers.options.embeddings.create:run"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
