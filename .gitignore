@@ -1,4 +1,5 @@
 *.egg-info
 *.csv
+*.json
 *.pyc
 __pycache__/
