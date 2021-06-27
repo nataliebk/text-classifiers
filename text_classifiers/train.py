@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, accuracy_score
 
 from text_classifiers.options.tfidf import train_with_tfidf
+from text_classifiers.options.embeddings import train_with_embeddings
 from text_classifiers.helpers import setup_logging
 
 
@@ -82,9 +83,14 @@ def run():
     train, test = get_train_test(selected_dtf, args.train_test_directory)
 
     logging.info("Training %s model...", args.model_option)
-    classifier = train_with_tfidf(train,
-                                  text_col="headline",
-                                  label_col="category")
+    if args.model_option == "tfidf":
+        classifier = train_with_tfidf(train,
+                                    text_col="headline",
+                                    label_col="category")
+    elif args.model_option == "embeddings":
+        classifier = train_with_embeddings(train,
+                                           text_col="headline",
+                                           label_col="category")
 
     # Evaluating the model on the test set
     evaluate_model(test,
