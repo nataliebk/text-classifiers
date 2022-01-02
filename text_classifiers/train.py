@@ -44,7 +44,7 @@ def evaluate_model(test_data, text_col, label_col, classifier):
     logging.info("Precision on test set: %s", precision)
 
 
-def select_classes(dtf, text_col="headline", label_col="category", top_n=6):
+def select_classes(dtf, text_col, label_col, top_n=6):
     """Select top N classes for training"""
     selected_categories = list(dtf[label_col].value_counts().keys()[:top_n])
     logging.info("Selected classes for training: %s", selected_categories)
@@ -57,11 +57,18 @@ def run():
     arg_parser = ArgumentParser()
     arg_parser.add_argument("--verbose", "-v", action="count", default=1)
     arg_parser.add_argument("--model-option", default="tfidf",
+                            choices=["tfidf", "embeddings"],
                             help="Feature / model type to train."
                             "Available options are tfidf, embeddings, lstm or all.")
     arg_parser.add_argument("--raw-data-path", type=str,
                             default="data/raw/News_Category_Dataset_v2.json",
                             help="Path to the raw data file. Should be .json or .csv file.")
+    arg_parser.add_argument("--text-col", type=str, 
+                            default="headline",
+                            help="Column name with text to be classified.")
+    arg_parser.add_argument("--label-col", type=str,
+                            default="category",
+                            help="Column name with labels.")
     arg_parser.add_argument("--train-test-directory", type=str,
                             default="data/processed",
                             help="Path to the raw data file.")
@@ -79,23 +86,26 @@ def run():
         return 
 
     logging.info("Splitting into train/test...")
-    selected_dtf = select_classes(raw_dtf)
+    selected_dtf = select_classes(raw_dtf,
+                                text_col=args.text_col,
+                                label_col=args.label_col)
     train, test = get_train_test(selected_dtf, args.train_test_directory)
 
     logging.info("Training %s model...", args.model_option)
     if args.model_option == "tfidf":
         classifier = train_with_tfidf(train,
-                                    text_col="headline",
-                                    label_col="category")
+                                    text_col=args.text_col,
+                                    label_col=args.label_col)
     elif args.model_option == "embeddings":
         classifier = train_with_embeddings(train,
-                                           text_col="headline",
-                                           label_col="category")
+                                           text_col=args.text_col,
+                                           label_col=args.label_col,
+                                           embed_path="data/trained_models/embeddings.wordvec")
 
     # Evaluating the model on the test set
     evaluate_model(test,
-                   text_col="headline",
-                   label_col="category",
+                   text_col=args.text_col,
+                   label_col=args.label_col,
                    classifier=classifier)
 
     model_path = args.model_directory + "/" + args.model_option + ".pkl"
