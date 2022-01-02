@@ -3,7 +3,7 @@ import time
 import pandas as pd
 import gensim
 
-from text_classifiers.helpers import preprocess_corpus, PreprocessedCorpus 
+from text_classifiers.helpers import PreprocessedCorpus 
 
 
 def run():
@@ -22,7 +22,7 @@ def run():
 
     print("Training the embeddings model...")
     start_time = time.time()
-    model = gensim.models.Word2Vec(sentences=sentences)
+    model = gensim.models.Word2Vec(sentences=sentences, vector_size=300)
     print(f"--- Took {round(time.time() - start_time, 2)} seconds ---")
 
     embed_path = "data/trained_models/embeddings.wordvec"
